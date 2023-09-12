@@ -1,0 +1,11 @@
+micronaut:
+  application:
+    name: oda-files-service
+  security:
+    authentication: cookie
+    token:
+      jwt:
+        signatures:
+          jwks:
+            keycloak:
+              url: https://auth.oda.digital/realms/ODA/protocol/openid-connect/certs
