@@ -1,6 +1,14 @@
+minio:
+  endpoint: '${MINIO_ENDPOINT}'
+  username: '${MINIO_USERNAME}'
+  password: '${MINIO_PASSWORD}'
 micronaut:
   application:
     name: oda-files-service
+  server:
+     max-request-size: '100MB'
+     multipart:
+         max-file-size: '100MB'
   security:
     authentication: cookie
     token:
