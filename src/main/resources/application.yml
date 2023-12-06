@@ -10,10 +10,14 @@ micronaut:
      multipart:
          max-file-size: '100MB'
   security:
-    authentication: cookie
     token:
+      bearer:
+        enabled: true
+      cookie:
+        enabled: true
       jwt:
         signatures:
           jwks:
             keycloak:
               url: https://auth.oda.digital/realms/ODA/protocol/openid-connect/certs
+datasources:
