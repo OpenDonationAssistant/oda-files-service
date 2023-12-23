@@ -38,15 +38,15 @@ public class FilesController {
         .build();
   }
 
-  @Secured(SecurityRule.IS_AUTHENTICATED)
+  @Secured(SecurityRule.IS_ANONYMOUS)
   @Get(value = "/{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
   @SneakyThrows
-  public byte[] get(@PathVariable String name, Authentication auth) {
+  public byte[] get(@PathVariable String name, @Nullable Authentication auth) {
     return minio
       .getObject(
         GetObjectArgs
           .builder()
-          .bucket(String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE)))
+          .bucket(auth == null ? "tabularussia" : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE)))
           .object(name)
           .build()
       )
