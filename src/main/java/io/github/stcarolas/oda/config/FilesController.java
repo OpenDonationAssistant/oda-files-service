@@ -1,11 +1,13 @@
 package io.github.stcarolas.oda.config;
 
 import io.micronaut.context.annotation.Value;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.http.multipart.CompletedFileUpload;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
@@ -60,6 +62,7 @@ public class FilesController {
   @SneakyThrows
   public void put(
     @PathVariable String name,
+    @Nullable @QueryValue("public") Boolean isPublic,
     CompletedFileUpload file,
     Authentication auth
   ) {
@@ -67,7 +70,11 @@ public class FilesController {
       minio.putObject(
         PutObjectArgs
           .builder()
-          .bucket(String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE)))
+          .bucket(
+            isPublic
+              ? "public"
+              : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE))
+          )
           .object(name)
           .stream(stream, stream.available(), -1)
           .build()
