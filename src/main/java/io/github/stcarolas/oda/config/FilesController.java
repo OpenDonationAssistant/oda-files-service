@@ -71,7 +71,7 @@ public class FilesController {
         PutObjectArgs
           .builder()
           .bucket(
-            isPublic
+            isPublic != null && isPublic
               ? "public"
               : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE))
           )
