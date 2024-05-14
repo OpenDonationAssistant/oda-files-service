@@ -16,7 +16,6 @@ import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import java.io.ByteArrayInputStream;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,12 +42,17 @@ public class FilesController {
 
   @Secured(SecurityRule.IS_ANONYMOUS)
   @Get(value = "/{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
-  public byte[] get(@PathVariable String name, @Nullable Authentication auth) throws Exception {
+  public byte[] get(@PathVariable String name, @Nullable Authentication auth)
+    throws Exception {
     return minio
       .getObject(
         GetObjectArgs
           .builder()
-          .bucket(auth == null ? "tabularussia" : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE)))
+          .bucket(
+            auth == null
+              ? "tabularussia"
+              : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE))
+          )
           .object(name)
           .build()
       )
@@ -61,7 +65,7 @@ public class FilesController {
     consumes = { MediaType.MULTIPART_FORM_DATA },
     produces = { MediaType.TEXT_PLAIN }
   )
-  public void put (
+  public void put(
     @PathVariable String name,
     @Nullable @QueryValue("public") Boolean isPublic,
     CompletedFileUpload file,
@@ -73,11 +77,7 @@ public class FilesController {
       minio.putObject(
         PutObjectArgs
           .builder()
-          .bucket(
-            isPublic != null && isPublic
-              ? "public"
-              : owner
-          )
+          .bucket(isPublic != null && isPublic ? "public" : owner)
           .object(name)
           .stream(stream, stream.available(), -1)
           .build()
