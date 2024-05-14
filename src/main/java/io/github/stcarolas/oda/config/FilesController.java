@@ -16,12 +16,15 @@ import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import java.io.ByteArrayInputStream;
-import lombok.SneakyThrows;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller("/files")
 public class FilesController {
 
   private static final String NICKNAME_ATTRIBUTE = "preferred_username";
+  private Logger log = LoggerFactory.getLogger(FilesController.class);
 
   MinioClient minio;
 
@@ -40,8 +43,7 @@ public class FilesController {
 
   @Secured(SecurityRule.IS_ANONYMOUS)
   @Get(value = "/{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
-  @SneakyThrows
-  public byte[] get(@PathVariable String name, @Nullable Authentication auth) {
+  public byte[] get(@PathVariable String name, @Nullable Authentication auth) throws Exception {
     return minio
       .getObject(
         GetObjectArgs
@@ -59,13 +61,14 @@ public class FilesController {
     consumes = { MediaType.MULTIPART_FORM_DATA },
     produces = { MediaType.TEXT_PLAIN }
   )
-  @SneakyThrows
-  public void put(
+  public void put (
     @PathVariable String name,
     @Nullable @QueryValue("public") Boolean isPublic,
     CompletedFileUpload file,
     Authentication auth
-  ) {
+  ) throws Exception {
+    var owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
+    log.info("Uploading {} for {}, public: {}", name, owner, isPublic);
     try (var stream = new ByteArrayInputStream(file.getBytes())) {
       minio.putObject(
         PutObjectArgs
@@ -73,7 +76,7 @@ public class FilesController {
           .bucket(
             isPublic != null && isPublic
               ? "public"
-              : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE))
+              : owner
           )
           .object(name)
           .stream(stream, stream.available(), -1)
