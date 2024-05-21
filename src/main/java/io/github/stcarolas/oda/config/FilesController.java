@@ -79,6 +79,11 @@ public class FilesController {
           .builder()
           .bucket(isPublic != null && isPublic ? "public" : owner)
           .object(name)
+          .contentType(
+            name.endsWith("css")
+              ? "text/css"
+              : MediaType.APPLICATION_OCTET_STREAM
+          )
           .stream(stream, stream.available(), -1)
           .build()
       );
