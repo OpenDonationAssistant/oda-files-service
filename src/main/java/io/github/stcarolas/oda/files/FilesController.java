@@ -1,6 +1,5 @@
-package io.github.stcarolas.oda.config;
+package io.github.stcarolas.oda.files;
 
-import io.micronaut.context.annotation.Value;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
@@ -15,6 +14,7 @@ import io.micronaut.security.rules.SecurityRule;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import jakarta.inject.Inject;
 import java.io.ByteArrayInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,39 +23,22 @@ import org.slf4j.LoggerFactory;
 public class FilesController {
 
   private static final String NICKNAME_ATTRIBUTE = "preferred_username";
-  private Logger log = LoggerFactory.getLogger(FilesController.class);
 
-  MinioClient minio;
+  private final Logger log = LoggerFactory.getLogger(FilesController.class);
+  private final MinioClient minio;
 
-  public FilesController(
-    @Value("${minio.endpoint}") String endpoint,
-    @Value("${minio.username}") String username,
-    @Value("${minio.password}") String password
-  ) {
-    this.minio =
-      MinioClient
-        .builder()
-        .endpoint(endpoint)
-        .credentials(username, password)
-        .build();
+  @Inject
+  public FilesController(MinioClient minio) {
+    this.minio = minio;
   }
 
   @Secured(SecurityRule.IS_ANONYMOUS)
   @Get(value = "/{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
   public byte[] get(@PathVariable String name, @Nullable Authentication auth)
     throws Exception {
+    var owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
     return minio
-      .getObject(
-        GetObjectArgs
-          .builder()
-          .bucket(
-            auth == null
-              ? "tabularussia"
-              : String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE))
-          )
-          .object(name)
-          .build()
-      )
+      .getObject(GetObjectArgs.builder().bucket(owner).object(name).build())
       .readAllBytes();
   }
 
@@ -73,17 +56,17 @@ public class FilesController {
   ) throws Exception {
     var owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
     log.info("Uploading {} for {}, public: {}", name, owner, isPublic);
+    var mimeType = name.endsWith("css")
+      ? "text/css"
+      : MediaType.APPLICATION_OCTET_STREAM;
+    var bucket = isPublic != null && isPublic ? "public" : owner;
     try (var stream = new ByteArrayInputStream(file.getBytes())) {
       minio.putObject(
         PutObjectArgs
           .builder()
-          .bucket(isPublic != null && isPublic ? "public" : owner)
+          .bucket(bucket)
           .object(name)
-          .contentType(
-            name.endsWith("css")
-              ? "text/css"
-              : MediaType.APPLICATION_OCTET_STREAM
-          )
+          .contentType(mimeType)
           .stream(stream, stream.available(), -1)
           .build()
       );

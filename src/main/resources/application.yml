@@ -2,6 +2,7 @@ minio:
   endpoint: '${MINIO_ENDPOINT}'
   username: '${MINIO_USERNAME}'
   password: '${MINIO_PASSWORD}'
+rabbitmq.host: ${RABBITMQ_HOST:`localhost`}
 micronaut:
   application:
     name: oda-files-service
@@ -21,4 +22,3 @@ micronaut:
           jwks:
             keycloak:
               url: https://auth.oda.digital/realms/ODA/protocol/openid-connect/certs
-datasources:
