@@ -37,9 +37,14 @@ public class FilesController {
   public byte[] get(@PathVariable String name, @Nullable Authentication auth)
     throws Exception {
     var owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
-    return minio
-      .getObject(GetObjectArgs.builder().bucket(owner).object(name).build())
-      .readAllBytes();
+    try {
+      return minio
+        .getObject(GetObjectArgs.builder().bucket(owner).object(name).build())
+        .readAllBytes();
+    } catch (Exception e) {
+      log.error("Error getting file: {}, owner: {}", name, owner, e);
+      throw e;
+    }
   }
 
   @Secured(SecurityRule.IS_AUTHENTICATED)
