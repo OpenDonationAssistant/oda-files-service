@@ -1,5 +1,6 @@
 package io.github.stcarolas.oda.generated;
 
+import io.micronaut.context.annotation.Value;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -14,7 +15,10 @@ public class GeneratedController {
   private ArtClient artClient;
   private String token;
 
-  public GeneratedController(ArtClient artClient, String token) {
+  public GeneratedController(
+    ArtClient artClient,
+    @Value("${art.token}") String token
+  ) {
     this.artClient = artClient;
     this.token = token;
   }
