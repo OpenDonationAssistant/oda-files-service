@@ -36,8 +36,9 @@ public class FilesController {
   @Get(value = "/{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
   public byte[] get(@PathVariable String name, @Nullable Authentication auth)
     throws Exception {
-    var owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
+    String owner = null;
     try {
+      owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
       return minio
         .getObject(GetObjectArgs.builder().bucket(owner).object(name).build())
         .readAllBytes();
