@@ -43,7 +43,6 @@ public class FilesController {
         .getObject(GetObjectArgs.builder().bucket(owner).object(name).build())
         .readAllBytes();
     } catch (Exception e) {
-      log.error("Error getting file: {}, owner: {}", name, owner, e);
       throw e;
     }
   }
@@ -68,8 +67,7 @@ public class FilesController {
     var bucket = isPublic != null && isPublic ? "public" : owner;
     try (var stream = new ByteArrayInputStream(file.getBytes())) {
       minio.putObject(
-        PutObjectArgs
-          .builder()
+        PutObjectArgs.builder()
           .bucket(bucket)
           .object(name)
           .contentType(mimeType)

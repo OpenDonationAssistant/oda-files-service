@@ -1,5 +1,6 @@
-FROM eclipse-temurin:21-jdk-jammy
+FROM fedora:41
 WORKDIR /app
-COPY target/oda-files-service-0.1.jar /app
+COPY target/oda-files-service /app
 
-CMD ["java","--add-opens","java.base/java.time=ALL-UNNAMED","-jar","oda-files-service-0.1.jar"]
+CMD ["./oda-files-service"]
+
