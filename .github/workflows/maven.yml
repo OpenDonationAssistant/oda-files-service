@@ -13,3 +13,4 @@ jobs:
     with:
       service: files-service
       version: "${{ github.RUN_NUMBER }}"
+      packaging: jar
