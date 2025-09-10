@@ -3,4 +3,3 @@ WORKDIR /app
 COPY target/oda-files-service /app
 
 CMD ["./oda-files-service"]
-
