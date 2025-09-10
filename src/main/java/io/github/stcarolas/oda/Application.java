@@ -1,6 +1,6 @@
 package io.github.stcarolas.oda;
 
-import io.github.opendonationassistant.RabbitConfiguration;
+import io.github.opendonationassistant.rabbit.RabbitConfiguration;
 import io.micronaut.rabbitmq.connect.ChannelInitializer;
 import io.micronaut.runtime.Micronaut;
 import jakarta.inject.Singleton;
