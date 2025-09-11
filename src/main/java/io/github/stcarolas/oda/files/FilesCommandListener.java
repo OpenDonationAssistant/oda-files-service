@@ -4,6 +4,7 @@ import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.events.files.CopyFileCommand;
 import io.github.opendonationassistant.events.files.CreateBucketCommand;
 import io.github.opendonationassistant.events.files.FilesCommand;
+import io.micronaut.messaging.annotation.MessageHeader;
 import io.micronaut.rabbitmq.annotation.Queue;
 import io.micronaut.rabbitmq.annotation.RabbitListener;
 import io.micronaut.serde.ObjectMapper;
@@ -13,8 +14,6 @@ import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import jakarta.inject.Inject;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RabbitListener
 public class FilesCommandListener {
@@ -28,16 +27,22 @@ public class FilesCommandListener {
   }
 
   @Queue(io.github.opendonationassistant.rabbit.Queue.Commands.FILES)
-  public void listenCommands(FilesCommand command) throws Exception {
-    log.info("Received command: {}", Map.of("command", command));
-    switch (command) {
-      case CreateBucketCommand createBucketCommand -> {
+  public void listenCommands(byte[] command, @MessageHeader String type)
+    throws Exception {
+    ObjectMapper.getDefault().readValue(command, FilesCommand.class);
+    log.info("Received FilesCommand", Map.of("type", type));
+    switch (type) {
+      case "create-bucket" -> {
+        CreateBucketCommand createBucketCommand = ObjectMapper.getDefault()
+          .readValue(command, CreateBucketCommand.class);
         MakeBucketArgs args = MakeBucketArgs.builder()
           .bucket(createBucketCommand.getName())
           .build();
         minio.makeBucket(args);
       }
-      case CopyFileCommand copyFileCommand -> {
+      case "copy-file" -> {
+        CopyFileCommand copyFileCommand = ObjectMapper.getDefault()
+          .readValue(command, CopyFileCommand.class);
         minio.copyObject(
           CopyObjectArgs.builder()
             .source(
@@ -51,7 +56,9 @@ public class FilesCommandListener {
             .build()
         );
       }
-      default -> throw new RuntimeException("Unknown command: " + command);
+      default -> throw new RuntimeException(
+        "Unknown FilesCommand type: " + type
+      );
     }
   }
 }
