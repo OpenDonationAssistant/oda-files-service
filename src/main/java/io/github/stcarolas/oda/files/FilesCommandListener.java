@@ -29,7 +29,6 @@ public class FilesCommandListener {
   @Queue(io.github.opendonationassistant.rabbit.Queue.Commands.FILES)
   public void listenCommands(byte[] command, @MessageHeader String type)
     throws Exception {
-    ObjectMapper.getDefault().readValue(command, FilesCommand.class);
     log.info("Received FilesCommand", Map.of("type", type));
     switch (type) {
       case "create-bucket" -> {
