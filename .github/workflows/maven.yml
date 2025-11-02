@@ -14,4 +14,4 @@ jobs:
       service: files-service
       version: "${{ github.RUN_NUMBER }}"
       packaging: jar
-      npm: false
+      npm: true
