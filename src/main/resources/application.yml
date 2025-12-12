@@ -24,3 +24,7 @@ micronaut:
   caches:
     jwks:
       expire-after-write: 240h
+flyway:
+  datasources:
+    default:
+      enabled: true
