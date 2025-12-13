@@ -28,3 +28,10 @@ flyway:
   datasources:
     default:
       enabled: true
+datasources:
+  default:
+    url: ${JDBC_URL:`jdbc:postgresql://localhost/postgres?currentSchema=files`}
+    username: ${JDBC_USER:`postgres`}
+    password: ${JDBC_PASSWORD:`postgres`}
+    driverClassName: 'org.postgresql.Driver'
+    maximumPoolSize: 3
