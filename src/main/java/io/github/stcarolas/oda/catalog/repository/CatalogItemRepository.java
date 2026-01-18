@@ -15,6 +15,14 @@ public class CatalogItemRepository {
     this.repository = repository;
   }
 
+  public List<CatalogItem> listByCategory(String category) {
+    return repository
+      .findByCategory(category)
+      .stream()
+      .map(this::convert)
+      .toList();
+  }
+
   public List<CatalogItem> list() {
     return repository.findAll().stream().map(this::convert).toList();
   }
