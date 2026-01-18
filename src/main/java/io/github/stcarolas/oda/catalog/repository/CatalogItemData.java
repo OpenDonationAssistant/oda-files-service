@@ -9,6 +9,7 @@ import io.micronaut.serde.annotation.Serdeable;
 @MappedEntity("catalog_item")
 public record CatalogItemData(
   @Id String id,
+  String name,
   String recipientId,
   String category,
   @MappedProperty("item_type") String type,

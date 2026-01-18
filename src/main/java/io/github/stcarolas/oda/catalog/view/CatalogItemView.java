@@ -6,6 +6,7 @@ import io.micronaut.serde.annotation.Serdeable;
 @Serdeable
 public record CatalogItemView(
   String id,
+  String name,
   String recipientId,
   String category,
   String type,
@@ -14,6 +15,7 @@ public record CatalogItemView(
   public static CatalogItemView of(CatalogItemData item) {
     return new CatalogItemView(
       item.id(),
+      item.name(),
       item.recipientId(),
       item.category(),
       item.type(),
