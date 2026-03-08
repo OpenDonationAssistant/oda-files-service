@@ -1,6 +1,9 @@
 package io.github.stcarolas.oda.files;
 
+import io.github.opendonationassistant.commons.logging.ODALogger;
+import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.micronaut.core.annotation.Nullable;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -16,15 +19,12 @@ import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import jakarta.inject.Inject;
 import java.io.ByteArrayInputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 @Controller("/files")
-public class FilesController {
+public class FilesController extends BaseController {
 
-  private static final String NICKNAME_ATTRIBUTE = "preferred_username";
-
-  private final Logger log = LoggerFactory.getLogger(FilesController.class);
+  private ODALogger log = new ODALogger(this);
   private final MinioClient minio;
 
   @Inject
@@ -34,16 +34,25 @@ public class FilesController {
 
   @Secured(SecurityRule.IS_ANONYMOUS)
   @Get(value = "/{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
-  public byte[] get(@PathVariable String name, @Nullable Authentication auth)
-    throws Exception {
-    String owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
+  public HttpResponse<byte[]> get(
+    @PathVariable String name,
+    @Nullable Authentication auth
+  ) throws Exception {
+    var owner = getOwnerId(auth);
+    if (owner.isEmpty()) {
+      return HttpResponse.unauthorized();
+    }
     try {
-      return minio
-        .getObject(GetObjectArgs.builder().bucket(owner).object(name).build())
-        .readAllBytes();
+      return HttpResponse.ok(
+        minio
+          .getObject(
+            GetObjectArgs.builder().bucket(owner.get()).object(name).build()
+          )
+          .readAllBytes()
+      );
     } catch (Exception e) {
-      log.error("Failed to get {} for {}", name, owner);
-      throw e;
+      log.error("Failed to get item", Map.of("name", name, "owner", owner));
+      return HttpResponse.notFound();
     }
   }
 
@@ -59,12 +68,27 @@ public class FilesController {
     CompletedFileUpload file,
     Authentication auth
   ) throws Exception {
-    var owner = String.valueOf(auth.getAttributes().get(NICKNAME_ATTRIBUTE));
-    log.info("Uploading {} for {}, public: {}", name, owner, isPublic);
+    var owner = getOwnerId(auth);
+    if (owner.isEmpty()) {
+      return;
+    }
     var mimeType = name.endsWith("css")
       ? "text/css"
       : MediaType.APPLICATION_OCTET_STREAM;
-    var bucket = isPublic != null && isPublic ? "public" : owner;
+    log.info(
+      "Uploading file",
+      Map.of(
+        "name",
+        name,
+        "owner",
+        owner,
+        "isPublic",
+        isPublic,
+        "mime",
+        mimeType
+      )
+    );
+    var bucket = isPublic != null && isPublic ? "public" : owner.get();
     try (var stream = new ByteArrayInputStream(file.getBytes())) {
       minio.putObject(
         PutObjectArgs.builder()

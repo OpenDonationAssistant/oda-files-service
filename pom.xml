@@ -31,12 +31,7 @@
     <dependency>
       <groupId>io.github.opendonationassistant</groupId>
       <artifactId>oda-rabbit-conf</artifactId>
-      <version>0.10.156</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jspecify</groupId>
-      <artifactId>jspecify</artifactId>
-      <version>1.0.0</version>
+      <version>0.10.159</version>
     </dependency>
     <dependency>
       <groupId>io.micronaut.cache</groupId>

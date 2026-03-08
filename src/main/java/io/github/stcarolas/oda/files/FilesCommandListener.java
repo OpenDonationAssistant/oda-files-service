@@ -1,9 +1,8 @@
 package io.github.stcarolas.oda.files;
 
 import io.github.opendonationassistant.commons.logging.ODALogger;
-import io.github.opendonationassistant.events.files.CopyFileCommand;
-import io.github.opendonationassistant.events.files.CreateBucketCommand;
-import io.github.opendonationassistant.events.files.FilesCommand;
+import io.github.opendonationassistant.events.files.FilesCommand.CopyFileCommand;
+import io.github.opendonationassistant.events.files.FilesCommand.CreateBucketCommand;
 import io.micronaut.messaging.annotation.MessageHeader;
 import io.micronaut.rabbitmq.annotation.Queue;
 import io.micronaut.rabbitmq.annotation.RabbitListener;
@@ -35,7 +34,7 @@ public class FilesCommandListener {
         CreateBucketCommand createBucketCommand = ObjectMapper.getDefault()
           .readValue(command, CreateBucketCommand.class);
         MakeBucketArgs args = MakeBucketArgs.builder()
-          .bucket(createBucketCommand.getName())
+          .bucket(createBucketCommand.name())
           .build();
         minio.makeBucket(args);
       }
