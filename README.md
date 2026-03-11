@@ -1,5 +1,5 @@
 # ODA Files Service
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/OpenDonationAssistant/oda-payment-page)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/OpenDonationAssistant/oda-files-service)
 
 ## Micronaut 4.1.0 Documentation
 
