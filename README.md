@@ -1,5 +1,9 @@
 # ODA Files Service
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/OpenDonationAssistant/oda-files-service)
+![Sonar Tech Debt](https://img.shields.io/sonar/tech_debt/OpenDonationAssistant_oda-files-service?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Violations](https://img.shields.io/sonar/violations/OpenDonationAssistant_oda-files-service?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Tests](https://img.shields.io/sonar/tests/OpenDonationAssistant_oda-files-service?server=https%3A%2F%2Fsonarcloud.io)
+![Sonar Coverage](https://img.shields.io/sonar/coverage/OpenDonationAssistant_oda-files-service?server=https%3A%2F%2Fsonarcloud.io)
 
 ## Running with Docker
 
