@@ -37,3 +37,4 @@ datasources:
     password: ${JDBC_PASSWORD:`postgres`}
     driverClassName: 'org.postgresql.Driver'
     maximumPoolSize: 3
+    schema: 'files'
