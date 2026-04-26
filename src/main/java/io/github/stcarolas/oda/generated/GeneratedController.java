@@ -9,6 +9,8 @@ import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
+import io.swagger.v3.oas.annotations.Operation;
+
 import java.util.Base64;
 
 @Controller("/generated")
@@ -28,6 +30,7 @@ public class GeneratedController {
   @Get(value = "{name}", produces = { MediaType.APPLICATION_OCTET_STREAM })
   @Secured(SecurityRule.IS_ANONYMOUS)
   @ExecuteOn(TaskExecutors.BLOCKING)
+  @Operation(hidden = true)
   public byte[] get(@PathVariable String name) {
     var result = artClient.operations(token, name);
     return Base64.getDecoder().decode(result.getResponse().image());
