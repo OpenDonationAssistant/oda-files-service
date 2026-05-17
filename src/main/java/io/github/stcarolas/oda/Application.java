@@ -6,6 +6,7 @@ import io.github.opendonationassistant.rabbit.Queue;
 import io.micronaut.context.ApplicationContextBuilder;
 import io.micronaut.context.ApplicationContextConfigurer;
 import io.micronaut.context.annotation.ContextConfigurer;
+import io.micronaut.context.annotation.Factory;
 import io.micronaut.rabbitmq.connect.ChannelInitializer;
 import io.micronaut.runtime.Micronaut;
 import jakarta.inject.Singleton;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import org.jspecify.annotations.NonNull;
 
+@Factory
 public class Application {
 
   @ContextConfigurer
