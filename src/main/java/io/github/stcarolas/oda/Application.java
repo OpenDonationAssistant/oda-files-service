@@ -1,14 +1,17 @@
 package io.github.stcarolas.oda;
 
-import org.jspecify.annotations.NonNull;
-
-import io.github.opendonationassistant.rabbit.RabbitConfiguration;
+import io.github.opendonationassistant.rabbit.AMQPConfiguration;
+import io.github.opendonationassistant.rabbit.Exchange;
+import io.github.opendonationassistant.rabbit.Queue;
 import io.micronaut.context.ApplicationContextBuilder;
 import io.micronaut.context.ApplicationContextConfigurer;
 import io.micronaut.context.annotation.ContextConfigurer;
 import io.micronaut.rabbitmq.connect.ChannelInitializer;
 import io.micronaut.runtime.Micronaut;
 import jakarta.inject.Singleton;
+import java.util.List;
+import java.util.Map;
+import org.jspecify.annotations.NonNull;
 
 public class Application {
 
@@ -21,13 +24,25 @@ public class Application {
     }
   }
 
-
   public static void main(String[] args) {
     Micronaut.build(args).banner(false).classes(Application.class).start();
   }
 
   @Singleton
   public ChannelInitializer rabbitConfiguration() {
-    return new RabbitConfiguration();
+    var commands = new Queue("files.command");
+    return new AMQPConfiguration(
+      List.of(
+        Exchange.Exchange(
+          "commands",
+          Map.of(
+            "command.CopyFileCommand",
+            commands,
+            "command.CreateBucketCommand",
+            commands
+          )
+        )
+      )
+    );
   }
 }
