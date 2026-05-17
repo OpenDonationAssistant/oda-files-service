@@ -20,6 +20,7 @@ import io.minio.PutObjectArgs;
 import jakarta.inject.Inject;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller("/files")
 public class FilesController extends BaseController {
@@ -83,7 +84,7 @@ public class FilesController extends BaseController {
         "owner",
         owner,
         "isPublic",
-        isPublic,
+        Optional.ofNullable(isPublic).orElse(false),
         "mime",
         mimeType
       )
