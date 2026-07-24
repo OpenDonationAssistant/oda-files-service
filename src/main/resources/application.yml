@@ -38,3 +38,8 @@ datasources:
     driverClassName: 'org.postgresql.Driver'
     maximumPoolSize: 3
     schema: 'files'
+endpoints:
+  prometheus:
+    sensitive: false
+  metrics:
+    sensitive: false
