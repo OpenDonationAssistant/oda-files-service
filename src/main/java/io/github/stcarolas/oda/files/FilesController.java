@@ -27,10 +27,15 @@ public class FilesController extends BaseController {
 
   private ODALogger log = new ODALogger(this);
   private final MinioClient minio;
+  private final FileAccessRepository fileAccessRepository;
 
   @Inject
-  public FilesController(MinioClient minio) {
+  public FilesController(
+    MinioClient minio,
+    FileAccessRepository fileAccessRepository
+  ) {
     this.minio = minio;
+    this.fileAccessRepository = fileAccessRepository;
   }
 
   @Secured(SecurityRule.IS_ANONYMOUS)
@@ -43,6 +48,40 @@ public class FilesController extends BaseController {
     if (owner.isEmpty()) {
       return HttpResponse.unauthorized();
     }
+
+    if ("DonationListener.zip".equals(name)) {
+      var access = fileAccessRepository.findByRecipientIdAndFilenameAndBucket(
+        owner.get(),
+        "DonationListener.zip",
+        "DonationListener"
+      );
+      if (access.isEmpty() || !access.get().allowed()) {
+        log.info(
+          "DonationListener access denied",
+          Map.of("owner", owner.get())
+        );
+        return HttpResponse.unauthorized();
+      }
+      try {
+        return HttpResponse.ok(
+          minio
+            .getObject(
+              GetObjectArgs.builder()
+                .bucket("DonationListener")
+                .object(name)
+                .build()
+            )
+            .readAllBytes()
+        );
+      } catch (Exception e) {
+        log.error(
+          "Failed to get DonationListener file",
+          Map.of("name", name, "owner", owner)
+        );
+        return HttpResponse.notFound();
+      }
+    }
+
     try {
       return HttpResponse.ok(
         minio
@@ -90,6 +129,12 @@ public class FilesController extends BaseController {
       )
     );
     var bucket = isPublic != null && isPublic ? "public" : owner.get();
+    if ("DonationListener.zip".equals(name)) {
+      if (!"nekromant80lvl".equals(owner.get())) {
+        return;
+      }
+      bucket = "DonationListener";
+    }
     try (var stream = new ByteArrayInputStream(file.getBytes())) {
       minio.putObject(
         PutObjectArgs.builder()

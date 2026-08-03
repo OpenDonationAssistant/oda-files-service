@@ -9,11 +9,23 @@ import io.micronaut.context.annotation.ContextConfigurer;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.rabbitmq.connect.ChannelInitializer;
 import io.micronaut.runtime.Micronaut;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
 import jakarta.inject.Singleton;
 import java.util.List;
 import java.util.Map;
 import org.jspecify.annotations.NonNull;
 
+@OpenAPIDefinition(
+  info = @Info(
+    title = "ODA Files Service",
+    license = @License(
+      name = "AGPL-3.0",
+      url = "https://www.gnu.org/licenses/agpl-3.0.en.html"
+    )
+  )
+)
 @Factory
 public class Application {
 
