@@ -53,6 +53,8 @@ public class Application {
             "command.CopyFileCommand",
             commands,
             "command.CreateBucketCommand",
+            commands,
+            "command.UploadFileCommand",
             commands
           )
         )
