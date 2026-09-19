@@ -121,7 +121,7 @@ public class FilesController extends BaseController {
         "name",
         name,
         "owner",
-        owner,
+        owner.get(),
         "isPublic",
         Optional.ofNullable(isPublic).orElse(false),
         "mime",
