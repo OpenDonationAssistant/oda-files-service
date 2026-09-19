@@ -1,7 +1,7 @@
-package io.github.stcarolas.oda.catalog.view;
+package io.github.opendonationassistant.catalog.view;
 
-import io.github.stcarolas.oda.catalog.model.CatalogItem;
-import io.github.stcarolas.oda.catalog.repository.CatalogItemRepository;
+import io.github.opendonationassistant.catalog.model.CatalogItem;
+import io.github.opendonationassistant.catalog.repository.CatalogItemRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;

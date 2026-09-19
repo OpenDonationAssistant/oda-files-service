@@ -1,10 +1,10 @@
-package io.github.stcarolas.oda.files.listener.handlers;
+package io.github.opendonationassistant.files.listener.handlers;
 
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.events.AbstractMessageHandler;
 import io.github.opendonationassistant.events.HasRecipientId;
-import io.github.stcarolas.oda.files.FileAccess;
-import io.github.stcarolas.oda.files.FileAccessRepository;
+import io.github.opendonationassistant.files.FileAccess;
+import io.github.opendonationassistant.files.FileAccessRepository;
 import io.micronaut.serde.ObjectMapper;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.inject.Singleton;

@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.files;
+package io.github.opendonationassistant.files;
 
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Factory;

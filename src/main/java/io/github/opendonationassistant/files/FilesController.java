@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.files;
+package io.github.opendonationassistant.files;
 
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;

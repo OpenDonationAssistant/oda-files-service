@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.catalog.repository;
+package io.github.opendonationassistant.catalog.repository;
 
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;

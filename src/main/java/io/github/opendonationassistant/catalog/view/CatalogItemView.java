@@ -1,6 +1,6 @@
-package io.github.stcarolas.oda.catalog.view;
+package io.github.opendonationassistant.catalog.view;
 
-import io.github.stcarolas.oda.catalog.repository.CatalogItemData;
+import io.github.opendonationassistant.catalog.repository.CatalogItemData;
 import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable

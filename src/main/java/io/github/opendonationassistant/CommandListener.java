@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda;
+package io.github.opendonationassistant;
 
 import io.github.opendonationassistant.events.MessageProcessor;
 import io.micronaut.messaging.annotation.MessageHeader;

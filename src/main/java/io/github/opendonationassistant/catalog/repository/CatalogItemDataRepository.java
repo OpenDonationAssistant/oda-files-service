@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.catalog.repository;
+package io.github.opendonationassistant.catalog.repository;
 
 import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.model.query.builder.sql.Dialect;

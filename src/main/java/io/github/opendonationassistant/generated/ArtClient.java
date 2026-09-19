@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.generated;
+package io.github.opendonationassistant.generated;
 
 import static io.micronaut.http.HttpHeaders.CONTENT_TYPE;
 

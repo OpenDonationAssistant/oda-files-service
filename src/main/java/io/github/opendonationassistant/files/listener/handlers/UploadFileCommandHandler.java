@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.files.listener.handlers;
+package io.github.opendonationassistant.files.listener.handlers;
 
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.events.AbstractMessageHandler;

@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.generated;
+package io.github.opendonationassistant.generated;
 
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.MediaType;

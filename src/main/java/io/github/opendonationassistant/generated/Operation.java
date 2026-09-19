@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda.generated;
+package io.github.opendonationassistant.generated;
 
 import io.micronaut.serde.annotation.Serdeable;
 

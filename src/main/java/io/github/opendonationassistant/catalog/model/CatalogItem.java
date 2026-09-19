@@ -1,6 +1,6 @@
-package io.github.stcarolas.oda.catalog.model;
+package io.github.opendonationassistant.catalog.model;
 
-import io.github.stcarolas.oda.catalog.repository.CatalogItemData;
+import io.github.opendonationassistant.catalog.repository.CatalogItemData;
 
 public class CatalogItem {
 

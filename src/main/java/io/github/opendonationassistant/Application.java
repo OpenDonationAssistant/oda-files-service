@@ -1,4 +1,4 @@
-package io.github.stcarolas.oda;
+package io.github.opendonationassistant;
 
 import io.github.opendonationassistant.rabbit.AMQPConfiguration;
 import io.github.opendonationassistant.rabbit.Exchange;

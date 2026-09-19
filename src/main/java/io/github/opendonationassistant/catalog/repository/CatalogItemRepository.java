@@ -1,6 +1,6 @@
-package io.github.stcarolas.oda.catalog.repository;
+package io.github.opendonationassistant.catalog.repository;
 
-import io.github.stcarolas.oda.catalog.model.CatalogItem;
+import io.github.opendonationassistant.catalog.model.CatalogItem;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.inject.Inject;
 import java.util.List;
