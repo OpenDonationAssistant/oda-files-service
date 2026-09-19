@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.github.stcarolas.oda</groupId>
+  <groupId>io.github.opendonationassistant</groupId>
   <artifactId>oda-files-service</artifactId>
   <version>0.0.4</version>
   <packaging>${packaging}</packaging>
@@ -17,8 +17,8 @@
     <jdk.version>25</jdk.version>
     <release.version>25</release.version>
     <micronaut.aot.enabled>false</micronaut.aot.enabled>
-    <micronaut.aot.packageName>io.github.stcarolas.oda.aot.generated</micronaut.aot.packageName>
-    <exec.mainClass>io.github.stcarolas.oda.Application</exec.mainClass>
+    <micronaut.aot.packageName>io.github.opendonationassistant.aot.generated</micronaut.aot.packageName>
+    <exec.mainClass>io.github.opendonationassistant.Application</exec.mainClass>
     <sonar.organization>opendonationassistant</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -233,7 +233,7 @@
             </path>
           </annotationProcessorPaths>
           <compilerArgs>
-            <arg>-Amicronaut.processing.group=io.github.stcarolas.oda</arg>
+            <arg>-Amicronaut.processing.group=io.github.opendonationassistant</arg>
             <arg>-Amicronaut.processing.module=oda-files-service</arg>
             <arg>-XDcompilePolicy=simple</arg>
             <arg>--should-stop=ifError=FLOW</arg>
