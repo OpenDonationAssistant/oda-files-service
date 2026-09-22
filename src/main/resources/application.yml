@@ -39,6 +39,14 @@ datasources:
     maximumPoolSize: 3
     schema: 'files'
 endpoints:
+  health:
+    sensitive: false
+    details-visible: never
+    groups:
+      liveness:
+        include: ping
+      readiness:
+        include: '*'
   prometheus:
     sensitive: false
   metrics:

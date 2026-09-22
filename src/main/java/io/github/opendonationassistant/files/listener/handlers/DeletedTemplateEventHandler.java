@@ -14,6 +14,7 @@ import io.minio.errors.ServerException;
 import io.minio.errors.XmlParserException;
 import jakarta.inject.Singleton;
 import java.io.IOException;
+import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -76,15 +77,30 @@ public class DeletedTemplateEventHandler
   }
 
   private String extractFilenameFromUrl(String url) {
-    if (url == null || url.isEmpty()) {
+    if (url == null || url.isBlank()) {
       throw new IllegalArgumentException("Showcase URL cannot be null or empty");
     }
-    // Extract the last path segment after the last '/'
-    int lastSlashIndex = url.lastIndexOf('/');
-    if (lastSlashIndex == -1 || lastSlashIndex == url.length() - 1) {
+    String path;
+    try {
+      // URI#getPath ignores query string and fragment
+      path = URI.create(url).getPath();
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(
+        "Invalid showcase URL format: " + url,
+        e
+      );
+    }
+    if (path == null || path.isEmpty()) {
       throw new IllegalArgumentException("Invalid showcase URL format: " + url);
     }
-    return url.substring(lastSlashIndex + 1);
+    int lastSlashIndex = path.lastIndexOf('/');
+    String filename = lastSlashIndex >= 0
+      ? path.substring(lastSlashIndex + 1)
+      : path;
+    if (filename.isEmpty()) {
+      throw new IllegalArgumentException("Invalid showcase URL format: " + url);
+    }
+    return filename;
   }
 
   @Serdeable

@@ -26,6 +26,18 @@ Configure the following environment variables to run the service:
 | `JDBC_URL` | PostgreSQL JDBC URL | `jdbc:postgresql://localhost/postgres?currentSchema=files` |
 | `JDBC_USER` | Database username | `postgres` |
 | `JDBC_PASSWORD` | Database password | `postgres` |
+| `JWKS_URI` | JWKS endpoint used to validate JWT signatures | *Required* |
+| `ART_TOKEN` | Bearer token for the Yandex ART model API (`art.token`) | *Required* |
+
+### Health Endpoints
+
+The service exposes Micronaut management health endpoints (non-sensitive):
+
+| Endpoint | Description |
+|----------|-------------|
+| `/health` | Overall health |
+| `/health/liveness` | Liveness probe |
+| `/health/readiness` | Readiness probe |
 
 ### Docker Run Example
 

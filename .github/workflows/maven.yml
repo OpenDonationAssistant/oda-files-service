@@ -6,7 +6,9 @@ on:
     paths-ignore:
       - 'README.md'
 
-permissions: write-all
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-and-deploy:

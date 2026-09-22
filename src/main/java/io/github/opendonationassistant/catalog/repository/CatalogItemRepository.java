@@ -1,11 +1,10 @@
 package io.github.opendonationassistant.catalog.repository;
 
 import io.github.opendonationassistant.catalog.model.CatalogItem;
-import io.micronaut.serde.annotation.Serdeable;
+import io.micronaut.data.model.Page;
+import io.micronaut.data.model.Pageable;
 import jakarta.inject.Inject;
-import java.util.List;
 
-@Serdeable
 public class CatalogItemRepository {
 
   private final CatalogItemDataRepository repository;
@@ -15,16 +14,12 @@ public class CatalogItemRepository {
     this.repository = repository;
   }
 
-  public List<CatalogItem> listByCategory(String category) {
-    return repository
-      .findByCategory(category)
-      .stream()
-      .map(this::convert)
-      .toList();
+  public Page<CatalogItem> listByCategory(String category, Pageable pageable) {
+    return repository.findByCategory(category, pageable).map(this::convert);
   }
 
-  public List<CatalogItem> list() {
-    return repository.findAll().stream().map(this::convert).toList();
+  public Page<CatalogItem> list(Pageable pageable) {
+    return repository.findAll(pageable).map(this::convert);
   }
 
   private CatalogItem convert(CatalogItemData data) {

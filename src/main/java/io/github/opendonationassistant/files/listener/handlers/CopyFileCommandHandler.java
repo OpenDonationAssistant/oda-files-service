@@ -59,7 +59,7 @@ public class CopyFileCommandHandler
       | IOException e
     ) {
       log.error(
-        "Failed to create bucket",
+        "Failed to copy file",
         Map.of("command", message, "error", e.getMessage())
       );
       throw new RuntimeException(e);
