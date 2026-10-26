@@ -25,6 +25,7 @@
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
     <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
     <sonar.language>java</sonar.language>
+    <micronaut.test.resources.enabled>true</micronaut.test.resources.enabled>
   </properties>
 
   <dependencies>
@@ -119,6 +120,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.micronaut.testresources</groupId>
+      <artifactId>micronaut-test-resources-client</artifactId>
+      <version>${micronaut.test.resources.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
@@ -157,6 +164,20 @@
             </dependency>
           </aotDependencies>
           <configFile>aot-${packaging}.properties</configFile>
+          <testResourcesDependencies>
+            <dependency>
+              <groupId>io.micronaut.testresources</groupId>
+              <artifactId>micronaut-test-resources-jdbc-postgresql</artifactId>
+            </dependency>
+            <dependency>
+              <groupId>io.micronaut.testresources</groupId>
+              <artifactId>micronaut-test-resources-rabbitmq</artifactId>
+            </dependency>
+            <dependency>
+              <groupId>io.micronaut.testresources</groupId>
+              <artifactId>micronaut-test-resources-minio</artifactId>
+            </dependency>
+          </testResourcesDependencies>
         </configuration>
       </plugin>
       <plugin>

@@ -1,0 +1,23 @@
+minio:
+  endpoint: '${minio.url}'
+  username: '${minio.access-key}'
+  password: '${minio.secret-key}'
+datasources:
+  default:
+    db-type: postgresql
+    schema: 'files'
+art:
+  token: test-token
+micronaut:
+  security:
+    enabled: false
+    token:
+      jwt:
+        signatures:
+          jwks:
+            keycloak:
+              url: 'http://localhost:9999/jwks'
+  http:
+    services:
+      artmodel:
+        url: 'http://localhost:9999'
