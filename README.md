@@ -90,7 +90,9 @@ services:
       - "15672:15672"
 
   minio:
-    image: minio/minio
+    # minio/minio is no longer published on Docker Hub and quay.io/minio/minio
+    # rejects anonymous pulls, so pin the community-maintained rebuild.
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: minioadmin

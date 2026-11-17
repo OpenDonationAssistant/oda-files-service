@@ -2,6 +2,18 @@ minio:
   endpoint: '${minio.url}'
   username: '${minio.access-key}'
   password: '${minio.secret-key}'
+# MinIO stopped publishing anonymously pullable images: minio/minio was removed
+# from Docker Hub and quay.io/minio/minio now answers 401 UNAUTHORIZED to
+# anonymous manifest requests. The image micronaut-test-resources defaults to
+# (quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z) can therefore no longer be
+# pulled, so the MinIO test resource is pinned to a community-maintained rebuild
+# of the same upstream MinIO releases (same entrypoint, MINIO_ROOT_USER/
+# MINIO_ROOT_PASSWORD env vars and /data volume, so it is a drop-in replacement).
+test-resources:
+  containers:
+    minio:
+      image-name: pgsty/minio
+      image-tag: RELEASE.2026-08-04T00-00-00Z
 datasources:
   default:
     db-type: postgresql
