@@ -7,10 +7,6 @@ on:
       - 'README.md'
 
 permissions:
-  # contents: write is required by the reusable release workflow in
-  # oda-libraries (build.yml), which runs `git tag` + `git push origin <tag>`.
-  # Permissions are inherited (and can only be downgraded) by called workflows,
-  # so `read` here makes that push fail with 403 for github-actions[bot].
   contents: write
   packages: write
 
